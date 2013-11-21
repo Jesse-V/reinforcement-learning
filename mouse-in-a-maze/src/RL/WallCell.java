@@ -12,7 +12,12 @@ import java.awt.Color;
  *
  * @author jesse
  */
-public abstract class Cell
+public class WallCell extends Cell
 {
-	public abstract Color getColor();
+
+	@Override
+	public Color getColor()
+	{
+		return Color.BLACK;
+	}
 }

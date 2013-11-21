@@ -12,7 +12,20 @@ import java.awt.Color;
  *
  * @author jesse
  */
-public abstract class Cell
+public class OpenCell extends Cell
 {
-	public abstract Color getColor();
+	private float memoryOf = 1;
+	
+	
+	public Color getColor()
+	{
+		return new Color(1 - memoryOf, memoryOf, 0);
+	}
+	
+	
+	
+	public void decayMemory()
+	{
+		memoryOf *= 0.5f;
+	}
 }

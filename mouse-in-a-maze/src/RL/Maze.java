@@ -24,7 +24,7 @@ public class Maze extends JPanel
 	{
 		for (int x = 0; x < SIZE; x++)
 			for (int y = 0; y < SIZE; y++)
-				grid[x][y] = new Cell();
+				grid[x][y] = new OpenCell();
 	}
 	
 	
