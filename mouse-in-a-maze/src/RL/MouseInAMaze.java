@@ -4,17 +4,57 @@
  */
 package RL;
 
+import java.awt.Dimension;
+import java.awt.DisplayMode;
+import java.awt.GraphicsEnvironment;
+import javax.swing.JFrame;
+
 /**
  *
  * @author jesse
  */
-public class MouseInAMaze
+public class MouseInAMaze extends JFrame
 {
-    /**
-     * @param args the command line arguments
-     */
+	public MouseInAMaze()
+	{
+		super("Mouse in a Maze - Reinforcement Learning in a Dynamic Environment");
+        
+		DisplayMode displayMode = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
+		setSize(new Dimension(new Dimension(displayMode.getWidth(), displayMode.getHeight())));
+                
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setResizable(false);
+
+		add(new Maze());
+		setVisible(true);
+		
+		Thread repainter = new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				try
+				{
+					while (true)
+					{
+						repaint();
+						Thread.sleep(33, 33); //30 fps
+					}
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+		repainter.start();
+	}
+	
+	
+    
     public static void main(String[] args)
     {
-        // TODO code application logic here
+        new MouseInAMaze();
     }
 }
