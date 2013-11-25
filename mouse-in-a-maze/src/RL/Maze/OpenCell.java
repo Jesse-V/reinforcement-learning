@@ -55,4 +55,11 @@ public class OpenCell extends Cell
 	{
 		memoryOf *= 0.995f;
 	}
+	
+	
+	
+	public float getMemoryOf()
+	{
+		return memoryOf;
+	}
 }

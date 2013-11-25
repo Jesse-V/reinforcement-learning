@@ -54,10 +54,18 @@ public class Mouse extends Cell
 			if (neighbor.x >= 0 && maze[neighbor.x][neighbor.y] instanceof OpenCell)
 				emptyNeighbors.add(neighbor);
 		
+		ArrayList<Point> olderNeighbors = new ArrayList<Point>(4);
+		for (Point emptyNeighbor : emptyNeighbors)
+			if (((OpenCell)maze[emptyNeighbor.x][emptyNeighbor.y]).getMemoryOf() <= 0.9f)
+				olderNeighbors.add(emptyNeighbor);
+		
+		if (olderNeighbors.isEmpty())
+			olderNeighbors = emptyNeighbors;
+		
 		maze[location.x][location.y] = new OpenCell(1); //put down memory
 
-		int index = prng.nextInt(emptyNeighbors.size());
-		location = emptyNeighbors.get(index);
+		int index = prng.nextInt(olderNeighbors.size());
+		location = olderNeighbors.get(index);
 		return location;
 	}
 	

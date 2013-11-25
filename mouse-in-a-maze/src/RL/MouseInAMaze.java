@@ -63,7 +63,7 @@ public class MouseInAMaze extends JFrame
 					while (true)
 					{
 						maze.update();
-						Thread.sleep(10, 10);
+						Thread.sleep(20, 20);
 					}
 				}
 				catch (Exception e)
