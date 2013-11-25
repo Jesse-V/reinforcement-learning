@@ -16,8 +16,22 @@ import java.awt.Rectangle;
  */
 public class OpenCell extends Cell
 {
-	private float memoryOf = 0f;
-
+	private float memoryOf;
+	
+	
+	public OpenCell()
+	{
+		this(0f);
+	}
+	
+	
+	
+	public OpenCell(float newMemory)
+	{
+		memoryOf = newMemory;
+	}
+	
+	
 
 	@Override
 	public void draw(Graphics g, Rectangle rect)
@@ -39,6 +53,6 @@ public class OpenCell extends Cell
 	@Override
 	public void update()
 	{
-		memoryOf *= 0.5f;
+		memoryOf *= 0.995f;
 	}
 }

@@ -16,6 +16,9 @@ import javax.swing.JFrame;
  */
 public class MouseInAMaze extends JFrame
 {
+	private final Maze maze = new Maze();
+	
+	
 	public MouseInAMaze()
 	{
 		super("Mouse in a Maze - Reinforcement Learning in a Dynamic Environment");
@@ -27,7 +30,7 @@ public class MouseInAMaze extends JFrame
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setResizable(false);
 
-		add(new Maze());
+		add(maze);
 		setVisible(true);
 		
 		Thread repainter = new Thread(new Runnable()
@@ -39,7 +42,7 @@ public class MouseInAMaze extends JFrame
 				{
 					while (true)
 					{
-						repaint();
+						maze.repaint();
 						Thread.sleep(33, 33); //30 fps
 					}
 				}
@@ -49,7 +52,29 @@ public class MouseInAMaze extends JFrame
 				}
 			}
 		});
+		
+		Thread updater = new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				try
+				{
+					while (true)
+					{
+						maze.update();
+						Thread.sleep(10, 10);
+					}
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+		
 		repainter.start();
+		updater.start();
 	}
 	
 	
