@@ -9,6 +9,8 @@ package RL.Maze;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Random;
 import java.util.Stack;
 import javax.swing.JPanel;
@@ -17,7 +19,7 @@ import javax.swing.JPanel;
  *
  * @author jesse
  */
-public class Maze extends JPanel
+public class Maze extends JPanel implements MouseListener
 {
 	private static final int SIZE = 32;
 	private final Cell[][] grid = new Cell[SIZE][SIZE];
@@ -42,6 +44,8 @@ public class Maze extends JPanel
 		grid[0][START_Y] = new OpenCell();
 		for (int j = 0; j < SIZE; j++)
 			grid[SIZE - 1][j] = new OpenCell();
+		
+		addMouseListener(this);
 	}
 
 
@@ -134,4 +138,36 @@ public class Maze extends JPanel
 			for (int y = 0; y < SIZE; y++)
 				grid[x][y].draw(g, new Rectangle((int)(x * ratioX), (int)(y * ratioY), (int)ratioX, (int)ratioY));
 	}
+	
+	
+
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
+		float x = SIZE * (e.getX() / (float)getWidth());
+		float y = SIZE * (e.getY() / (float)getHeight());
+		
+		if (e.getButton() == MouseEvent.BUTTON1)
+			grid[(int)x][(int)y] = new OpenCell();
+		else
+			grid[(int)x][(int)y] = new WallCell();
+	}
+	
+	
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{}
+
+	@Override
+	public void mouseReleased(MouseEvent e)
+	{}
+
+	@Override
+	public void mouseEntered(MouseEvent e)
+	{}
+
+	@Override
+	public void mouseExited(MouseEvent e)
+	{}
 }
