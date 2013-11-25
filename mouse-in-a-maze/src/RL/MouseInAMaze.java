@@ -4,6 +4,7 @@
  */
 package RL;
 
+import RL.Maze.Maze;
 import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;

@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
-package RL;
+package RL.Maze;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 /**
  *
@@ -14,10 +16,13 @@ import java.awt.Color;
  */
 public class WallCell extends Cell
 {
-
+	public static final Color COLOR = Color.DARK_GRAY;
+	
+	
 	@Override
-	public Color getColor()
+	public void draw(Graphics g, Rectangle rect)
 	{
-		return Color.BLACK;
+		g.setColor(COLOR);
+		g.fillRect(rect.x, rect.y, rect.width, rect.height);
 	}
 }

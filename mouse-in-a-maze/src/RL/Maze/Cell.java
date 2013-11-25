@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-package RL;
+package RL.Maze;
 
-import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 /**
  *
@@ -14,5 +15,6 @@ import java.awt.Color;
  */
 public abstract class Cell
 {
-	public abstract Color getColor();
+	public abstract void draw(Graphics g, Rectangle rectangle);
+	public void update() {};
 }
