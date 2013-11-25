@@ -16,9 +16,9 @@ import java.awt.Rectangle;
  */
 public class WallCell extends Cell
 {
-	public static final Color COLOR = Color.DARK_GRAY;
-	
-	
+	public static final Color COLOR = Color.BLACK;
+
+
 	@Override
 	public void draw(Graphics g, Rectangle rect)
 	{

@@ -16,24 +16,26 @@ import java.awt.Rectangle;
  */
 public class OpenCell extends Cell
 {
-	private float memoryOf = 1f;
-	
-	
+	private float memoryOf = 0f;
+
+
 	@Override
 	public void draw(Graphics g, Rectangle rect)
 	{
-		g.setColor(Color.GREEN);
+		g.setColor(Color.WHITE);
+		g.fillRect(rect.x, rect.y, rect.width, rect.height);
 		
+		g.setColor(Color.GREEN);
 		int scaledX = (int)(memoryOf * rect.width);
 		int scaledY = (int)(memoryOf * rect.height);
 		g.fillOval((rect.width - scaledX) / 2 + rect.x, (rect.height - scaledY) / 2 + rect.y, scaledX, scaledY);
-	
+
 		//g.setColor(Color.RED);
 		//g.drawRect(rect.x, rect.y, rect.width, rect.height);
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void update()
 	{

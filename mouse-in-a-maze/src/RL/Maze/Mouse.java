@@ -17,8 +17,8 @@ import java.awt.Rectangle;
 public class Mouse extends Cell
 {
 	public static final Color COLOR = Color.GRAY;
-	
-	
+
+
 	@Override
 	public void draw(Graphics g, Rectangle rect)
 	{
