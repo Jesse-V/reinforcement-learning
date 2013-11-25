@@ -22,11 +22,11 @@ import javax.swing.JPanel;
  */
 public class Maze extends JPanel implements MouseListener
 {
-	private static final int SIZE = 32;
+	private static final int SIZE = 64;
 	private final Cell[][] maze = new Cell[SIZE][SIZE];
 	private final Random prng = new Random(System.currentTimeMillis());
 	private static final int START_Y = 1;
-	private Mouse mouse;
+	private final Mouse mouse;
 	private boolean solved = false;
 	
 
