@@ -24,11 +24,10 @@ public class MouseInAMaze extends JFrame
 		super("Mouse in a Maze - Reinforcement Learning in a Dynamic Environment");
         
 		DisplayMode displayMode = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
-		setSize(new Dimension(new Dimension(displayMode.getWidth(), displayMode.getHeight())));
-                
+		setSize(displayMode.getWidth(), displayMode.getHeight());
+		setLocation(0, 0);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setResizable(false);
 
 		add(maze);
 		setVisible(true);
@@ -44,7 +43,7 @@ public class MouseInAMaze extends JFrame
 					{
 						maze.update();
 						maze.repaint();
-						Thread.sleep(20, 20);
+						Thread.sleep(25, 25);
 					}
 				}
 				catch (Exception e)

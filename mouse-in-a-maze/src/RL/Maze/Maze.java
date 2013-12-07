@@ -28,7 +28,7 @@ public class Maze extends JPanel implements MouseListener
 	private final Cell[][] maze = new Cell[SIZE][SIZE];
 	private final Random prng = new Random(System.currentTimeMillis());
 	private static final int START_Y = 1;
-	private Mouse mouse;
+	private final Mouse mouse;
 	
 
 	public Maze()
