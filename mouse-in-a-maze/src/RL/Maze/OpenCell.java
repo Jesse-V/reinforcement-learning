@@ -40,6 +40,7 @@ public class OpenCell extends Cell
 		g.fillRect(rect.x, rect.y, rect.width, rect.height);
 		
 		g.setColor(Color.GREEN);
+		
 		int scaledX = (int)(memoryOf * rect.width);
 		int scaledY = (int)(memoryOf * rect.height);
 		g.fillOval((rect.width - scaledX) / 2 + rect.x, (rect.height - scaledY) / 2 + rect.y, scaledX, scaledY);
@@ -53,7 +54,7 @@ public class OpenCell extends Cell
 	@Override
 	public void update()
 	{
-		memoryOf *= 0.995f;
+		memoryOf *= 0.997f;
 	}
 	
 	

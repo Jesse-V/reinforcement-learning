@@ -14,6 +14,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -22,12 +24,11 @@ import javax.swing.JPanel;
  */
 public class Maze extends JPanel implements MouseListener
 {
-	private static final int SIZE = 64;
+	private static final int SIZE = 32;
 	private final Cell[][] maze = new Cell[SIZE][SIZE];
 	private final Random prng = new Random(System.currentTimeMillis());
 	private static final int START_Y = 1;
-	private final Mouse mouse;
-	private boolean solved = false;
+	private Mouse mouse;
 	
 
 	public Maze()
@@ -136,21 +137,39 @@ public class Maze extends JPanel implements MouseListener
 
 	public void update()
 	{
-		if (solved)
-			return;
-		
 		Point newLoc = mouse.update(maze);
+		maze[newLoc.x][newLoc.y] = mouse;
+		
 		if (newLoc.x == SIZE - 1)
-			solved = true;
-		else
-			maze[newLoc.x][newLoc.y] = mouse;
+			handleMazeSolved(newLoc);
 		
 		for (int j = 0; j < SIZE; j++)
 			for (int k = 0; k < SIZE; k++)
 				maze[j][k].update();
 	}
+	
+	
+	
+	public void handleMazeSolved(Point newLoc)
+	{
+		repaint();
+		
+		try
+		{
+			Thread.sleep(1000);
+		}
+		catch (InterruptedException ex)
+		{
+			System.out.println(ex);
+		}
+		
+		maze[newLoc.x][newLoc.y] = new OpenCell();
+		mouse.setLocation(new Point(0, START_Y));
+		maze[0][START_Y] = mouse;
+		mouse.setExploringMode(false);
+	}
 
-
+	
 
 	@Override
 	public void paintComponent(Graphics g)
