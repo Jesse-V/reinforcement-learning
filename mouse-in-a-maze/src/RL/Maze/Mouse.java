@@ -78,7 +78,7 @@ public class Mouse extends Cell
 		//then the maze has been changed. Search for alternative solution
 		if (!exploringMode && possibleMoves.size() == 1 && possibleMoves.get(0).equals(previousLocation))
 		{
-			System.out.println("Mouse got confused! Reverting to exploring mode.");
+			System.out.println("Memory led to dead end, confusing! Reverting to exploring mode.");
 			exploringMode = true;
 		}
 			
