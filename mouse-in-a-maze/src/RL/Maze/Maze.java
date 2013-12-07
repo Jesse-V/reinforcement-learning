@@ -49,6 +49,11 @@ public class Maze extends JPanel implements MouseListener
 		maze[0][START_Y] = mouse = new Mouse(new Point(0, START_Y));
 		for (int j = 0; j < SIZE; j++)
 			maze[SIZE - 1][j] = new OpenCell();
+		
+		int yEnding = 0;
+		while (maze[maze.length - 3][yEnding] instanceof WallCell)
+			yEnding = prng.nextInt(maze.length);
+		maze[maze.length - 2][yEnding] = new OpenCell();
 
 		addMouseListener(this);
 	}

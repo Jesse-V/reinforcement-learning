@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -51,29 +52,13 @@ public class Mouse extends Cell
 			new Point(location.x,     location.y + 1)
 		};
 		
-		ArrayList<Point> emptyNeighbors = new ArrayList<Point>(4);
+		ArrayList<Point> possibleMoves = new ArrayList<Point>(4);
 		for (Point neighbor : neighbors)
 			if (neighbor.x >= 0 && maze[neighbor.x][neighbor.y] instanceof OpenCell)
-				emptyNeighbors.add(neighbor);
+				possibleMoves.add(neighbor);
 		
-		//if a wall is available into the goal bar, then take it
-		if (location.x == maze.length - 1 && neighbors[0].equals(emptyNeighbors.get(0)))
-		{
-			location = neighbors[0];
-			return location;
-		}
-		
-		ArrayList<Point> olderNeighbors = new ArrayList<Point>(4);
-		for (Point emptyNeighbor : emptyNeighbors)
-			if (((OpenCell)maze[emptyNeighbor.x][emptyNeighbor.y]).getMemoryOf() <= 0.9f)
-				olderNeighbors.add(emptyNeighbor);
-		
-		if (olderNeighbors.isEmpty())
-			olderNeighbors = emptyNeighbors;
-
-		int index = prng.nextInt(olderNeighbors.size());
-		location = olderNeighbors.get(index);
-		return location;
+		Collections.sort(possibleMoves, new CellComparator(maze));
+		return location = possibleMoves.get(0);
 	}
 	
 	

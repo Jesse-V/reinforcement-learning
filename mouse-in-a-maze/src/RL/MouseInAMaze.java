@@ -33,27 +33,7 @@ public class MouseInAMaze extends JFrame
 		add(maze);
 		setVisible(true);
 		
-		Thread repainter = new Thread(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				try
-				{
-					while (true)
-					{
-						maze.repaint();
-						Thread.sleep(33, 33); //30 fps
-					}
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		Thread updater = new Thread(new Runnable()
+		Thread runLoop = new Thread(new Runnable()
 		{
 			@Override
 			public void run()
@@ -63,6 +43,7 @@ public class MouseInAMaze extends JFrame
 					while (true)
 					{
 						maze.update();
+						maze.repaint();
 						Thread.sleep(20, 20);
 					}
 				}
@@ -73,8 +54,7 @@ public class MouseInAMaze extends JFrame
 			}
 		});
 		
-		repainter.start();
-		updater.start();
+		runLoop.start();
 	}
 	
 	
