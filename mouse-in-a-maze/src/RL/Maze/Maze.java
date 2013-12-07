@@ -152,6 +152,7 @@ public class Maze extends JPanel implements MouseListener
 	
 	public void handleMazeSolved(Point newLoc)
 	{
+		System.out.println("Mouse solved the maze!");
 		repaint();
 		
 		try
