@@ -30,7 +30,7 @@ public class MouseInAMaze extends JFrame
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		add(maze);
-		setVisible(true);
+		setVisible(false);
 		
 		Thread runLoop = new Thread(new Runnable()
 		{
@@ -39,12 +39,35 @@ public class MouseInAMaze extends JFrame
 			{
 				try
 				{
-					while (true)
+					final int SAMPLE_SIZE = 25000;
+					int[] openCounts = new int[SAMPLE_SIZE];
+					int[] exploredCounts = new int[SAMPLE_SIZE];
+					int[] trailLengths = new int[SAMPLE_SIZE];
+					
+					for (int j = 0; j < SAMPLE_SIZE; j++)
 					{
-						maze.update();
-						maze.repaint();
-						Thread.sleep(100, 100);
+						maze.reset();
+						
+						while (true)
+						{
+							maze.update();
+							
+							if (maze.getSolvedCounter() == 1)
+							{
+								openCounts[j] = maze.getOpenCount();
+								exploredCounts[j] = maze.getExploredCount();
+							}
+
+							if (maze.getSolvedCounter() == 2)
+							{
+								trailLengths[j] = maze.getMouseTrailLength();
+								break;
+							}
+						}
 					}
+					
+					for (int j = 0; j < SAMPLE_SIZE; j++)
+						System.out.println(trailLengths[j] / (float)exploredCounts[j]);
 				}
 				catch (Exception e)
 				{

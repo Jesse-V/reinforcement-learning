@@ -6,16 +6,14 @@
 
 package RL.Maze;
 
+import RL.MersenneTwister;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Random;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -25,16 +23,34 @@ import javax.swing.JPanel;
 public class Maze extends JPanel implements MouseListener
 {
 	private static final int SIZE = 32;
-	private final Cell[][] maze = new Cell[SIZE][SIZE];
-	private final Random prng = new Random(System.currentTimeMillis());
-	private static final int START_Y = 1;
-	private final Mouse mouse;
+	private Cell[][] maze = new Cell[SIZE][SIZE];
+	private final MersenneTwister prng = new MersenneTwister(System.currentTimeMillis());
+	private static final int START_Y = 1, GENERATED_SIZE = SIZE - 2;
+	private int openCellCount, exploredCellCount, mouseTrailLength;
+	private Mouse mouse;
+	private int solvedCounter;
 	
 
 	public Maze()
 	{
-		final int GENERATED_SIZE = SIZE - 2;
+		reset();
+	}
+	
+	
+	
+	public final void reset()
+	{
+		maze = new Cell[SIZE][SIZE];
+		solvedCounter = 0;
+		
 		boolean[][] grid = DepthFirstMazeGen(1, START_Y, GENERATED_SIZE);
+		
+		//count the number of open cells
+		openCellCount = 0;
+		for (int j = 1; j < GENERATED_SIZE; j++)
+			for (int k = 1; k < GENERATED_SIZE; k++)
+				if (grid[j][k])
+					openCellCount++;
 
 		//make everything a wall
 		for (int j = 0; j < SIZE; j++)
@@ -61,6 +77,43 @@ public class Maze extends JPanel implements MouseListener
 
 
 
+	public void update()
+	{
+		Point newLoc = mouse.update(maze);
+		maze[newLoc.x][newLoc.y] = mouse;
+		
+		if (newLoc.x == SIZE - 1)
+			handleMazeSolved(newLoc);
+		
+		for (int j = 0; j < SIZE; j++)
+			for (int k = 0; k < SIZE; k++)
+				maze[j][k].update();
+	}
+	
+	
+	
+	public void handleMazeSolved(Point newLoc)
+	{
+		//System.out.println("Mouse solved the maze!");
+		solvedCounter++;
+		repaint();
+		
+		exploredCellCount = 0;
+		for (int j = 1; j < GENERATED_SIZE; j++)
+			for (int k = 1; k < GENERATED_SIZE; k++)
+				if (maze[j][k] instanceof OpenCell && ((OpenCell)maze[j][k]).getMemoryOf() > 0)
+					exploredCellCount++;
+		mouseTrailLength = mouse.getTrailLength();
+		//System.out.println(openCellCount + "		" + exploredCellCount + "	" + mouse.getTrailLength());
+		
+		maze[newLoc.x][newLoc.y] = new OpenCell();
+		mouse.setLocation(new Point(0, START_Y));
+		maze[0][START_Y] = mouse;
+		mouse.setExploringMode(false);
+	}
+	
+	
+	
 	public final boolean[][] DepthFirstMazeGen(int x, int y, int size)
 	{
 		//https://en.wikipedia.org/wiki/Maze_generation_algorithm#Depth-first_search
@@ -133,43 +186,6 @@ public class Maze extends JPanel implements MouseListener
 		return grid;
 	}
 
-
-
-	public void update()
-	{
-		Point newLoc = mouse.update(maze);
-		maze[newLoc.x][newLoc.y] = mouse;
-		
-		if (newLoc.x == SIZE - 1)
-			handleMazeSolved(newLoc);
-		
-		for (int j = 0; j < SIZE; j++)
-			for (int k = 0; k < SIZE; k++)
-				maze[j][k].update();
-	}
-	
-	
-	
-	public void handleMazeSolved(Point newLoc)
-	{
-		System.out.println("Mouse solved the maze!");
-		repaint();
-		
-		try
-		{
-			Thread.sleep(1000);
-		}
-		catch (InterruptedException ex)
-		{
-			System.out.println(ex);
-		}
-		
-		maze[newLoc.x][newLoc.y] = new OpenCell();
-		mouse.setLocation(new Point(0, START_Y));
-		maze[0][START_Y] = mouse;
-		mouse.setExploringMode(false);
-	}
-
 	
 
 	@Override
@@ -186,8 +202,36 @@ public class Maze extends JPanel implements MouseListener
 			for (int y = 0; y < SIZE; y++)
 				maze[x][y].draw(g, new Rectangle((int)(x * ratioX), (int)(y * ratioY), (int)ratioX, (int)ratioY));
 	}
+	
+	
+	
+	public int getOpenCount()
+	{
+		return openCellCount;
+	}
 
+	
 
+	public int getExploredCount()
+	{
+		return exploredCellCount;
+	}
+	
+	
+	
+	public int getMouseTrailLength()
+	{
+		return mouseTrailLength;
+	}
+
+	
+
+	public int getSolvedCounter()
+	{
+		return solvedCounter;
+	}
+
+	
 
 	@Override
 	public void mouseClicked(MouseEvent e)

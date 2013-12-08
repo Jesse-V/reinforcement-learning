@@ -6,13 +6,13 @@
 
 package RL.Maze;
 
+import RL.MersenneTwister;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 /**
  *
@@ -22,14 +22,15 @@ public class Mouse extends Cell
 {
 	public static final Color COLOR = Color.GRAY;
 	private Point location, previousLocation;
-	private final Random prng = new Random(System.currentTimeMillis());
+	private final MersenneTwister prng = new MersenneTwister(System.currentTimeMillis());
 	private boolean exploringMode = true;
+	private int trailLength = 0;
 	
 	
 	public Mouse(Point startingLocation)
 	{
 		previousLocation = location = startingLocation;
-		System.out.println("Mouse created, exploring mode enabled");
+		//System.out.println("Mouse created, exploring mode enabled");
 	}
 
 	
@@ -83,6 +84,7 @@ public class Mouse extends Cell
 		}
 			
 		previousLocation = location;
+		trailLength++;
 		if (exploringMode)
 			return location = possibleMoves.get(0); //take move that's least remembered
 		else  //take move that's most remembered, but not the previous location
@@ -101,6 +103,7 @@ public class Mouse extends Cell
 	public void setLocation(Point newLocation)
 	{
 		previousLocation = location = newLocation;
+		trailLength = 0;
 	}
 	
 	
@@ -108,6 +111,13 @@ public class Mouse extends Cell
 	public void setExploringMode(boolean shouldBeExploring)
 	{
 		exploringMode = shouldBeExploring;
-		System.out.println("Mouse's exploring mode is now set to " + exploringMode);
+		//System.out.println("Mouse's exploring mode is now set to " + exploringMode);
+	}
+	
+	
+	
+	public int getTrailLength()
+	{
+		return trailLength;
 	}
 }
